@@ -7,3 +7,4 @@ def foldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B = as match {
 
 assert(foldLeft(Nil, "a")((a, b) => a+b) == "a")
 assert(foldLeft(List(1,2,3), 0)((a, b) => a+b) == 6)
+assert(foldLeft(List(1,2,3), 0)((a, b) => a-b) == -6) // (((0 - 1) - 2) - 3)
