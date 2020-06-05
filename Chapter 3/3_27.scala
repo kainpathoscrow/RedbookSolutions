@@ -4,7 +4,7 @@ sealed trait Tree[+A]
 case class Leaf[A](value: A) extends Tree[A]
 case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
 
-def depth(tree: Tree[Int]): Int = tree match {
+def depth[A](tree: Tree[A]): Int = tree match {
   case Branch(left, right) => 1 + depth(left).max(depth(right))
   case Leaf(_) => 0
 }
