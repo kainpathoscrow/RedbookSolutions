@@ -11,6 +11,7 @@ def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] = a
 def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] = traverse(es)(x => x)
 
 assert(sequence(Nil) == Right(Nil))
+assert(sequence(List(Left("Error"), Left("Error1"))) == Left("Error"))
 assert(sequence(List(Left("Error"), Right(0))) == Left("Error"))
 assert(sequence(List(Right(0), Left("Error"))) == Left("Error"))
 assert(sequence(List(Right(1), Right(2))) == Right(List(1, 2)))
