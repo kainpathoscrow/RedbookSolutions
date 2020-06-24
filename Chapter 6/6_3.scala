@@ -1,4 +1,4 @@
-// Write a function to generate a Double between 0 and 1, not including 1.
+// Write functions to generate an (Int,  Double) pair, a (Double,  Int) pair, and a (Double, Double, Double) 3-tuple.
 
 // Defs
 trait RNG {
@@ -17,20 +17,27 @@ def nonNegativeInt(rng: RNG): (Int, RNG) = {
   val positiveInt = if (i < 0) (-1 * (i + 1)) else i
   (positiveInt, nextRng)
 }
-
-// Solution
-
 def double(rng: RNG): (Double, RNG) = {
   val (i, nextRng) = nonNegativeInt(rng)
   val dbl = i.toDouble / (Int.MaxValue.toDouble + 1)
   (dbl, nextRng)
 }
 
-// Test
-val rngs = (1 to 1000000).foldRight((Nil: Seq[Double], SimpleRNG(123): RNG)){
-  case (_, (accSeq, accRng)) => {
-    val (d, nextRng) = double(accRng)
-    (d +: accSeq, nextRng)
-  }
-}._1
-assert(rngs.forall(d => d >= 0 && d < 1))
+// Solution
+
+def intDouble(rng: RNG): ((Int,Double), RNG) = {
+  val (i, rng1) = rng.nextInt
+  val (d, rng2) = double(rng1)
+  ((i, d), rng2)
+}
+def doubleInt(rng: RNG): ((Double,Int), RNG) = {
+  val (d, rng1) = double(rng)
+  val (i, rng2) = rng1.nextInt
+  ((d, i), rng2)
+}
+def double3(rng: RNG): ((Double,Double,Double), RNG) = {
+  val (d1, rng1) = double(rng)
+  val (d2, rng2) = double(rng1)
+  val (d3, rng3) = double(rng2)  
+  ((d1, d2, d3), rng3)
+}
