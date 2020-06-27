@@ -28,4 +28,6 @@ def map2[A,B,C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
   (map(rb)(b => f(a, b)))(rngA)
 }
 
+// Test
+
 assert((map2(_.nextInt, _.nextInt)(_ + _))(OneRNG) == (3, ThreeRNG))
