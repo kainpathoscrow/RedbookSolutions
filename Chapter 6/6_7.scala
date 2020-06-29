@@ -26,8 +26,13 @@ def map2[A,B,C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
 }
 
 // Solution
-def sequence[A](fs: List[Rand[A]]): Rand[List[A]] =
-  fs.foldRight((rng: RNG) => (Nil: List[A], rng))((cur, acc) => map2(cur, acc)(_ :: _))
+def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => 
+  fs.foldRight((Nil: List[A], rng)){
+    case (cur, (accList, accRng)) => {
+      val (d, nextRng) = cur(accRng)
+      (d +: accList, nextRng)
+    }
+}
 
 def ints(n: Int): Rand[List[Int]] = {
   val randList = List.fill(n)(int)

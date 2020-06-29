@@ -24,6 +24,13 @@ def map2[A,B,C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
   val (a, rngA) = ra(rng)
   (map(rb)(b => f(a, b)))(rngA)
 }
+def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = rng => 
+  fs.foldRight((Nil: List[A], rng)){
+    case (cur, (accList, accRng)) => {
+      val (d, nextRng) = cur(accRng)
+      (d +: accList, nextRng)
+    }
+}
 
 val int: Rand[Int] = _.nextInt
 def nonNegativeInt = map(int)(i => if (i < 0) (-1 * (i + 1)) else i)
@@ -42,10 +49,5 @@ def nonNegativeLessThan(n: Int): Rand[Int] = flatMap(nonNegativeInt)(i => {
 })
 
 // Test 
-val nonNegativesLessThan5 = (1 to 100000).foldRight((Nil: Seq[Int], SimpleRNG(123): RNG)){
-  case (_, (accSeq, accRng)) => {
-    val (d, nextRng) = nonNegativeLessThan(5)(accRng)
-    (d +: accSeq, nextRng)
-  }
-}._1
+val nonNegativesLessThan5 = sequence(List.fill(10000)(nonNegativeLessThan(5)))(SimpleRNG(123))._1
 assert(nonNegativesLessThan5.forall(i => i >= 0 && i < 5))
