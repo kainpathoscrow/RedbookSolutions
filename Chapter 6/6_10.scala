@@ -17,7 +17,7 @@ object State {
   def unit[S, A](a: A): State[S, A] = State(s => (a, s))
   
   def sequence[S, A](states: List[State[S, A]]): State[S, List[A]] = State(st => 
-    states.foldRight((Nil: List[A], st)) {
+    states.reverse.foldRight((Nil: List[A], st)) {
       case (cur, (accList, accS)) => {
         val (nextA, nextS) = cur.run(accS)
         (nextA +: accList, nextS)
