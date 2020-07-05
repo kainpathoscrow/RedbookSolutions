@@ -4,7 +4,7 @@
 trait Prop { 
   def check: Boolean 
   def &&(p: Prop): Prop = {
-    val thisCheck = check
+    def thisCheck = check
     new Prop {
       def check = thisCheck && p.check
     }
@@ -12,10 +12,15 @@ trait Prop {
 }
 
 // Tests
-val propT = new Prop { def check = true }
-val propF = new Prop { def check = false }
+val propT = new Prop { def check = {println(true); true} }
+val propF = new Prop { def check = {println(false); false} }
 
 assert(propT.check)
 assert(!propF.check)
 assert(!((propT && propF).check))
 assert(!((propF && propT).check))
+
+println("Prints nothing until check is called:")
+val propCombined = propT && propF
+println("Now prints true \\n false:")
+propCombined.check

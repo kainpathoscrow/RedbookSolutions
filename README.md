@@ -1,2 +1,2 @@
-My solutions to "Functional Programming in Scala (2014)" exercises.  
+My solutions to some exercises from "Functional Programming in Scala (2014)" .  
 For shortness and ability to run every solution independently (in https://scastie.scala-lang.org/ for example), mostly uses std lib classes/methods instead of book-defined (but with the equal syntax and semantics).
