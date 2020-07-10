@@ -23,7 +23,7 @@ val orderedMonoid = new Monoid[Option[ChechResult]] {
   def empty = None
   def combine(m1: Option[ChechResult], m2: Option[ChechResult]) = (m1, m2) match {
     case (Some((b1, l1, r1)), Some((b2, l2, r2))) => 
-      Some(b1 && b2 && r1 < l2, l1, r2)
+      Some(b1 && b2 && r1 <= l2, l1, r2)
     case _ => m1.orElse(m2)
   }
 }
@@ -39,3 +39,5 @@ assert(ordered(IndexedSeq(1,2)))
 assert(!ordered(IndexedSeq(2,1)))
 assert(ordered(IndexedSeq(1,2,3)))
 assert(!ordered(IndexedSeq(2,1,3)))
+assert(ordered(IndexedSeq(1,1,3)))
+assert(ordered(IndexedSeq(1,3,3)))
