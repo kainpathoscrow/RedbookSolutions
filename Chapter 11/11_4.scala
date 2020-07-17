@@ -11,5 +11,4 @@ def sequence[A, M[_]](mas: List[M[A]])(implicit m: Monad[M]): M[List[A]] =
 def replicateM[A, F[_]: Monad](n: Int, ma: F[A]): F[List[A]] = sequence(List.fill(n)(ma))
 
 // Tests 
-println(replicateM(3, Some(1): Option[Int]))
 assert(replicateM(3, Some(1): Option[Int]) == Some(List(1,1,1)))
