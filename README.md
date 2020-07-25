@@ -1,2 +1,2 @@
 My solutions to some exercises from "Functional Programming in Scala (2014)" .  
-For shortness and ability to run every solution independently (in https://scastie.scala-lang.org/ for example), mostly uses std lib classes/methods instead of book-defined (but with the equal syntax and semantics).
+For shortness and ability to run every solution independently (in https://scastie.scala-lang.org/ for example), mostly uses std and cats classes/methods instead of book-defined (but with the equal syntax and semantics).
